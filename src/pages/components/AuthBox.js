@@ -49,7 +49,6 @@ const AuthBox = ({ title, text, change, isSignIn }) => {
 				.then((res) => res.json())
 				.then((data) => {
 					if (data.access_token) {
-						console.log(data);
 						toast.success("로그인 성공!");
 						localStorage.setItem("token", data.access_token);
 						navigate("/todo");
@@ -75,7 +74,7 @@ const AuthBox = ({ title, text, change, isSignIn }) => {
 	useEffect(() => {
 		if (localStorage.getItem("token")) {
 			toast.success("자동 로그인되었습니다!");
-			navigate("/todos");
+			navigate("/todo");
 		}
 	}, []);
 
