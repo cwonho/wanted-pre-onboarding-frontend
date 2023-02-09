@@ -1,12 +1,83 @@
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { toast } from "react-toastify";
 
 const AuthBox = ({ title, text, change, isSignIn }) => {
+	const [userInput, setUserInput] = useState({ email: "", password: "" });
+
+	const { email, password } = userInput;
+
 	const navigate = useNavigate();
+
+	const isValid = email.includes("@") && password.length >= 8;
+
+	const handleUserInput = (e) => {
+		const { name, value } = e.target;
+		setUserInput({ ...userInput, [name]: value });
+	};
+
+	const handleAuth = () => {
+		if (!isSignIn) {
+			fetch("https://pre-onboarding-selection-task.shop/auth/signup", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					email: email,
+					password: password,
+				}),
+			})
+				.then((res) => res.json())
+				.then((data) => {
+					if (data.access_token) {
+						toast.success("회원가입 성공!");
+						navigate("/signin");
+					} else {
+						toast.error(data.message);
+						setUserInput({ email: "", password: "" });
+					}
+				});
+		} else {
+			fetch("https://pre-onboarding-selection-task.shop/auth/signin", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					email: email,
+					password: password,
+				}),
+			})
+				.then((res) => res.json())
+				.then((data) => {
+					if (data.access_token) {
+						console.log(data);
+						toast.success("로그인 성공!");
+						localStorage.setItem("token", data.access_token);
+						navigate("/todo");
+					} else {
+						toast.error(data.message);
+						setUserInput({ email: "", password: "" });
+					}
+				});
+		}
+	};
+
+	const handleEnterSubmit = (e) => {
+		if (e.keyCode === 13) {
+			document.getElementById("auth-button").click();
+		}
+		return;
+	};
 
 	const onSwitchClick = () => {
 		navigate(`/${change}`);
 	};
+
+	useEffect(() => {
+		if (localStorage.getItem("token")) {
+			toast.success("자동 로그인되었습니다!");
+			navigate("/todos");
+		}
+	}, []);
 
 	return (
 		<OuterWrap>
@@ -22,15 +93,25 @@ const AuthBox = ({ title, text, change, isSignIn }) => {
 						<AuthInput
 							data-testid="email-input"
 							type="email"
+							name="email"
+							value={email}
 							placeholder="Email"
+							onChange={handleUserInput}
 						/>
 						<AuthInput
 							data-testid="password-input"
 							type="password"
+							name="password"
+							value={password}
 							placeholder="Password"
+							onChange={handleUserInput}
+							onKeyDown={handleEnterSubmit}
 						/>
 						<AuthButton
 							data-testid={isSignIn ? "signin-button" : "signup-button"}
+							id="auth-button"
+							disabled={!isValid}
+							onClick={handleAuth}
 						>
 							{title}
 						</AuthButton>
@@ -109,13 +190,14 @@ const AuthInput = styled.input`
 const AuthButton = styled.button`
 	height: 20%;
 	color: #fff;
+	opacity: ${(props) => (props.disabled ? "0.6" : "1")};
 	font-weight: bold;
 	background-color: black;
 	border: none;
-	cursor: pointer;
+	cursor: ${(props) => (props.disabled ? "null" : "pointer")};
 
 	&:active {
-		transform: scale(0.99);
+		transform: ${(props) => (props.disabled ? "null" : "scale(0.99)")};
 	}
 `;
 
