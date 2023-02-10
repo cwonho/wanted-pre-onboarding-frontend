@@ -1,6 +1,12 @@
+import { useEffect } from "react";
 import AuthBox from "./components/AuthBox";
 
 const Signin = () => {
+	useEffect(() => {
+		const titleElement = document.getElementsByTagName("title")[0];
+		titleElement.innerHTML = "로그인";
+	}, []);
+
 	return <AuthBox isSignIn={true} {...SIGNIN_DATA} />;
 };
 

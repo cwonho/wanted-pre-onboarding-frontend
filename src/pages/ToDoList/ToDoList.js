@@ -103,6 +103,11 @@ const ToDoList = () => {
 		getToDoList();
 	}, []);
 
+	useEffect(() => {
+		const titleElement = document.getElementsByTagName("title")[0];
+		titleElement.innerHTML = "투두리스트";
+	}, []);
+
 	return (
 		<OuterWrap>
 			<MainWrap>
