@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { toast } from "react-toastify";
 import styled from "styled-components";
 
@@ -139,7 +139,11 @@ const EditInput = styled.input`
 	outline: none;
 `;
 
-const CompleteBox = styled.input``;
+const CompleteBox = styled.input`
+	&:checked {
+		accent-color: black;
+	}
+`;
 
 const Item = styled.p`
 	width: 100%;
@@ -163,4 +167,4 @@ const DeleteButton = styled(EditButton)`
 	margin-left: 5px;
 `;
 
-export default ToDoItem;
+export default React.memo(ToDoItem);

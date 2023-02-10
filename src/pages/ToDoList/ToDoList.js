@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { toast } from "react-toastify";
@@ -31,8 +31,6 @@ const ToDoList = () => {
 	};
 
 	const createToDoItem = (e) => {
-		e.preventDefault();
-
 		if (taskInput.length === 0) {
 			toast.error("한글자 이상 입력해주세요.");
 			return;
@@ -58,7 +56,7 @@ const ToDoList = () => {
 			});
 	};
 
-	const deleteToDoItem = (id) => {
+	const deleteToDoItem = useCallback((id) => {
 		fetch(`${API.TODOS}/${id}`, {
 			method: "DELETE",
 			headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
@@ -70,9 +68,9 @@ const ToDoList = () => {
 				toast.error("태스크 삭제를 실패하였습니다.");
 			}
 		});
-	};
+	}, []);
 
-	const updateToDoItem = (id, todo, isCompleted, status) => {
+	const updateToDoItem = useCallback((id, todo, isCompleted, status) => {
 		fetch(`${API.TODOS}/${id}`, {
 			method: "PUT",
 			headers: {
@@ -88,7 +86,7 @@ const ToDoList = () => {
 				toast.success("태스크 수정을 실패하였습니다.");
 			}
 		});
-	};
+	}, []);
 
 	const handleEnterSubmit = (e) => {
 		if (e.keyCode === 13) {
