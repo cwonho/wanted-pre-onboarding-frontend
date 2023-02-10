@@ -14,7 +14,7 @@ if (typeof window !== "undefined") {
 root.render(
 	<>
 		<GlobalStyle />
-		<ToastContainer autoClose={2000} />
+		<ToastContainer autoClose={1000} />
 		<Router />
 	</>
 );

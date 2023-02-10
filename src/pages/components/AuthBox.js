@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { toast } from "react-toastify";
+import API from "../../api";
 
 const AuthBox = ({ title, text, change, isSignIn }) => {
 	const [userInput, setUserInput] = useState({ email: "", password: "" });
@@ -19,7 +20,7 @@ const AuthBox = ({ title, text, change, isSignIn }) => {
 
 	const handleAuth = () => {
 		if (!isSignIn) {
-			fetch("https://pre-onboarding-selection-task.shop/auth/signup", {
+			fetch(`${API.SIGNUP}`, {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({
@@ -38,7 +39,7 @@ const AuthBox = ({ title, text, change, isSignIn }) => {
 					}
 				});
 		} else {
-			fetch("https://pre-onboarding-selection-task.shop/auth/signin", {
+			fetch(`${API.SIGNIN}`, {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({
@@ -128,7 +129,7 @@ const OuterWrap = styled.div`
 	display: grid;
 	place-items: center;
 	width: 100vw;
-	min-height: 100vh;
+	height: 100vh;
 `;
 
 const MainWrap = styled.div`
