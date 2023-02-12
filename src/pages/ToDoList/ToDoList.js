@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
 import { toast } from "react-toastify";
+import styled from "styled-components";
 import ToDoItem from "./components/ToDoItem";
 import API from "../../api";
 
@@ -30,7 +30,7 @@ const ToDoList = () => {
 			});
 	};
 
-	const createToDoItem = (e) => {
+	const createToDoItem = () => {
 		if (taskInput.length === 0) {
 			toast.error("한글자 이상 입력해주세요.");
 			return;

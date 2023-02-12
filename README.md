@@ -11,7 +11,7 @@ $ npm install
 $ npm start
 ```
 
-## 기술스택
+## 기술 스택
 
 <div>
 <img src="https://img.shields.io/badge/HTML-E34F26?style=flat-square&logo=html5&logoColor=white" height="25px" />

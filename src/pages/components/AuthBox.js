@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
 import { toast } from "react-toastify";
+import styled from "styled-components";
 import API from "../../api";
 
 const AuthBox = ({ title, text, change, isSignIn }) => {
